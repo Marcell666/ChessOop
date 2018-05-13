@@ -10,16 +10,15 @@ import javax.swing.JPanel;
 
 public class Peca extends JPanel{
 	BufferedImage img;
-	int x, y;
 	public Peca(String path, int x, int y) throws IOException{
 		img = ImageIO.read(new File(path));
-		this.x = x;
-		this.y = y;
+		setBounds(x*40 + 4,y*40,40,40);
+		setOpaque(false);
 	}
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		g.drawImage(img, x*40, y*40, null);
+		g.drawImage(img, 0, 0, null);
 	}
 }

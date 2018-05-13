@@ -28,14 +28,17 @@ public class Chess extends JFrame{
 			System.err.println("Erro ao ler imagem");
 		}
 		
-		b= new Board();
-		p.setSize(550, 400);
+		b = new Board();
+		p.setLayout(null);
+		b.setLayout(null);
+		b.setBounds(0,0,550,400);
+		//b.setSize(550, 400);
 		b.add(p);
 		getContentPane().add(b);
 	}
 	public static void main(String[] args) {
 		Chess c = new Chess();
-		c.setTitle("Eu sou azul!");
+		c.setTitle("Eu sou uma janela!");
 		c.setVisible(true);
 	}
 }
