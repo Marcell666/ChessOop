@@ -1,21 +1,19 @@
 package principal;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.JPanel;
+import javax.swing.JComponent;
 
-import org.w3c.dom.events.MouseEvent;
-
-public class Peca extends JPanel{
+public class Peca extends JComponent{
 	BufferedImage img;
 	public Peca(String path, int x, int y) throws IOException{
 		img = ImageIO.read(Peca.class.getResource(path));
-		setBounds(x*40 + 4,y*40,40,40);
-		
+		setBounds(x*40 + 4,y*40,550,400);
 		setOpaque(false);
 	}
 	@Override
@@ -23,5 +21,10 @@ public class Peca extends JPanel{
 		super.paintComponent(g);
 		
 		g.drawImage(img, 0, 0, null);
+	}
+	
+	public void desenha(Graphics g, int x, int y) {
+		g.drawImage(img, x*40 + 4,y*40, null);
+		
 	}
 }
