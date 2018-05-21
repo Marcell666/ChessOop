@@ -9,8 +9,6 @@ import javax.swing.JLabel;
 @SuppressWarnings("serial")
 public class Chess extends JFrame{
 	
-	ImageIcon ic;
-	JLabel l;
 	Board board;
 	Peca peca;
 	
@@ -18,10 +16,6 @@ public class Chess extends JFrame{
 		super();
 		setBounds(0,0,550,400);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	
-		//ic = new ImageIcon(Chess.class.getResource("/PA.png"));
-		//l = new JLabel(ic);
-		//l.setSize(32, 40);
 		
 		try {
 			peca = new Peca("/PB.png", 3, 2);
@@ -34,7 +28,6 @@ public class Chess extends JFrame{
 		peca.setLayout(null);
 		board.setLayout(null);
 		board.setBounds(0,0,550,400);
-		//b.setSize(550, 400);
 		board.add(peca);
 		getContentPane().add(board);
 	}
