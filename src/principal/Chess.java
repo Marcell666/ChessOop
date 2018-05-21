@@ -11,30 +11,32 @@ public class Chess extends JFrame{
 	
 	ImageIcon ic;
 	JLabel l;
-	Board b;
-	Peca p;
+	Board board;
+	Peca peca;
 	
 	public Chess() {
+		super();
 		setBounds(0,0,550,400);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	
-		ic = new ImageIcon(Chess.class.getResource("/PA.png"));
-		l = new JLabel(ic);
-		l.setSize(32, 40);
+		//ic = new ImageIcon(Chess.class.getResource("/PA.png"));
+		//l = new JLabel(ic);
+		//l.setSize(32, 40);
+		
 		try {
-			p = new Peca("/home/sibeli/Documents/Bruce/eclipse-workspace/ChessOop/res/PB.png", 3, 2);
+			peca = new Peca("/PB.png", 3, 2);
 		}catch(IOException e) {
 			e.printStackTrace();
 			System.err.println("Erro ao ler imagem");
 		}
 		
-		b = new Board();
-		p.setLayout(null);
-		b.setLayout(null);
-		b.setBounds(0,0,550,400);
+		board = new Board();
+		peca.setLayout(null);
+		board.setLayout(null);
+		board.setBounds(0,0,550,400);
 		//b.setSize(550, 400);
-		b.add(p);
-		getContentPane().add(b);
+		board.add(peca);
+		getContentPane().add(board);
 	}
 	public static void main(String[] args) {
 		Chess c = new Chess();
