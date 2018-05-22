@@ -8,11 +8,14 @@ import java.io.IOException;
 import javax.swing.JFrame;
 
 @SuppressWarnings("serial")
-public class Chess extends JFrame{
-	
+public class Chess extends JFrame
+{
+	public static final int WIDTH = 575;
+	public static final int HEIGHT = 600;
 	public static final int QTD_TILES = 8;
-	public static final int TILE_WIDTH = 40;
-	public static final int TILE_HEIGHT = 40;
+	public static final int TILE_WIDTH = 70;
+	public static final int TILE_HEIGHT = 70;
+	
 	Peca pecasBrancas[];
 	Peca pecasPretas[];
 	
@@ -23,13 +26,15 @@ public class Chess extends JFrame{
 	 * 1 = rei
 	 * 2 = rainha
 	 * 3 = bispo
-	 * 4 = cavaleiro
+	 * 4 = cavalo
 	 * 5 = torre
+	 * 6 = peao
 	 * 
 	 * negativo = pecas pretas
 	 * */
 	
-	int pecas[][] =  new int[][]{
+	int pecas[][] =  new int[][]
+	{
 		{-5,-4,-3,-2,-1,-3,-4,-5},
 		{-6,-6,-6,-6,-6,-6,-6,-6},
 		{ 0, 0, 0, 0, 0, 0, 0, 0},
@@ -40,54 +45,64 @@ public class Chess extends JFrame{
 		{ 5, 4, 3, 2, 1, 3, 4, 5}
 	};
 	
-	public Chess() {
-		setBounds(0,0,550,400);
+	public Chess() 
+	{
+		setBounds(0,0,WIDTH,HEIGHT);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		try {
+		try
+		{
+			pecasBrancas = new Peca[]
+			{
+				new Peca("/ReiBr.png", 0, 0),
+				new Peca("/RainhaBr.png", 0, 0),
+				new Peca("/BispoBr.png", 0, 0),
+				new Peca("/CavaloBr.png", 0, 0),
+				new Peca("/TorreBr.png", 0, 0),
+				new Peca("/PeaoBr.png", 0, 0)
+			};
 		
-		pecasBrancas = new Peca[]{
-				new Peca("/PA.png", 0, 0),
-				new Peca("/PB.png", 0, 0),
-				new Peca("/PC.png", 0, 0),
-				new Peca("/PD.png", 0, 0),
-				new Peca("/PE.png", 0, 0),
-				new Peca("/PF.png", 0, 0)
-		};
-		
-		pecasPretas = new Peca[]{
-				new Peca("/PG.png", 0, 0),
-				new Peca("/PH.png", 0, 0),
-				new Peca("/PI.png", 0, 0),
-				new Peca("/PJ.png", 0, 0),
-				new Peca("/PK.png", 0, 0),
-				new Peca("/PL.png", 0, 0)
-		};
+			pecasPretas = new Peca[]
+			{
+				new Peca("/ReiPr.png", 0, 0),
+				new Peca("/RainhaPr.png", 0, 0),
+				new Peca("/BispoPr.png", 0, 0),
+				new Peca("/CavaloPr.png", 0, 0),
+				new Peca("/TorrePr.png", 0, 0),
+				new Peca("/PeaoPr.png", 0, 0)
+			};
 		}
-		catch(IOException e) {
+		catch(IOException e) 
+		{
 			e.printStackTrace();
 			System.err.println("erro ao ler pecas");
 		}
 		
 		board = new Screen(this);
 		board.setLayout(null);
-		board.setBounds(0,0,550,400);
+		board.setBounds(0,0,WIDTH,HEIGHT);
 		getContentPane().add(board);
 	}
 	
-	Peca[] getPecasBrancas() {
+	Peca[] getPecasBrancas() 
+	{
 		return pecasBrancas;
 	}
-	Peca[] getPecasPretas() {
+	
+	Peca[] getPecasPretas() 
+	{
 		return pecasPretas;
 	}
-	int[][] getPecas() {
+	
+	int[][] getPecas() 
+	{
 		return pecas;
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) 
+	{
 		Chess c = new Chess();
-		c.setTitle("Eu sou uma janela!");
+		c.setTitle("XADREZ");
 		c.setVisible(true);
 	}
 }
