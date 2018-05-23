@@ -1,36 +1,22 @@
 package principal;
 
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.JComponent;
 
-public class Peca extends JComponent
-{
+public class Peca
+{	
 	BufferedImage img;
 	
-	public Peca(String path, int x, int y) throws IOException
+	public Peca(String path) throws IOException
 	{
 		img = ImageIO.read(Peca.class.getResource(path));
-		setBounds(x*Chess.TILE_WIDTH, y*Chess.TILE_HEIGHT, Chess.WIDTH, Chess.HEIGHT);
-		setOpaque(false);
-	}
-	
-	@Override
-	public void paintComponent(Graphics g) 
-	{
-		super.paintComponent(g);
-		
-		g.drawImage(img, 0, 0, null);
 	}
 	
 	public void desenha(Graphics g, int x, int y) 
 	{
-		g.drawImage(img, x*Chess.TILE_WIDTH ,y*Chess.TILE_HEIGHT, null);
+		g.drawImage(img, x*Chess.TILE_WIDTH ,y*Chess.TILE_HEIGHT , null);
 	}
 }

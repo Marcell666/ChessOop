@@ -1,13 +1,9 @@
 package principal;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.io.IOException;
 
 import javax.swing.JFrame;
 
-@SuppressWarnings("serial")
 public class Chess extends JFrame
 {
 	public static final int WIDTH = 575;
@@ -19,7 +15,7 @@ public class Chess extends JFrame
 	Peca pecasBrancas[];
 	Peca pecasPretas[];
 	
-	Screen board;
+	Screen screen;
 	
 	/*
 	 * 0 = casa vazia
@@ -45,8 +41,9 @@ public class Chess extends JFrame
 		{ 5, 4, 3, 2, 1, 3, 4, 5}
 	};
 	
-	public Chess() 
+	public Chess(String name) 
 	{
+		super(name);
 		setBounds(0,0,WIDTH,HEIGHT);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -54,22 +51,22 @@ public class Chess extends JFrame
 		{
 			pecasBrancas = new Peca[]
 			{
-				new Peca("/ReiBr.png", 0, 0),
-				new Peca("/RainhaBr.png", 0, 0),
-				new Peca("/BispoBr.png", 0, 0),
-				new Peca("/CavaloBr.png", 0, 0),
-				new Peca("/TorreBr.png", 0, 0),
-				new Peca("/PeaoBr.png", 0, 0)
+				new Peca("/ReiBr.png"),
+				new Peca("/RainhaBr.png"),
+				new Peca("/BispoBr.png"),
+				new Peca("/CavaloBr.png"),
+				new Peca("/TorreBr.png"),
+				new Peca("/PeaoBr.png")
 			};
 		
 			pecasPretas = new Peca[]
 			{
-				new Peca("/ReiPr.png", 0, 0),
-				new Peca("/RainhaPr.png", 0, 0),
-				new Peca("/BispoPr.png", 0, 0),
-				new Peca("/CavaloPr.png", 0, 0),
-				new Peca("/TorrePr.png", 0, 0),
-				new Peca("/PeaoPr.png", 0, 0)
+				new Peca("/ReiPr.png"),
+				new Peca("/RainhaPr.png"),
+				new Peca("/BispoPr.png"),
+				new Peca("/CavaloPr.png"),
+				new Peca("/TorrePr.png"),
+				new Peca("/PeaoPr.png")
 			};
 		}
 		catch(IOException e) 
@@ -78,10 +75,11 @@ public class Chess extends JFrame
 			System.err.println("erro ao ler pecas");
 		}
 		
-		board = new Screen(this);
-		board.setLayout(null);
-		board.setBounds(0,0,WIDTH,HEIGHT);
-		getContentPane().add(board);
+		screen = new Screen(this);
+		screen.setLayout(null);
+		screen.setBounds(0,0,WIDTH,HEIGHT);
+		getContentPane().add(screen);
+		setVisible(true);
 	}
 	
 	Peca[] getPecasBrancas() 
@@ -101,8 +99,6 @@ public class Chess extends JFrame
 	
 	public static void main(String[] args) 
 	{
-		Chess c = new Chess();
-		c.setTitle("XADREZ");
-		c.setVisible(true);
+		new Chess("XADREZ");
 	}
 }

@@ -4,9 +4,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-import javax.swing.JPanel;
+import javax.swing.JComponent;
 
-public class Screen extends JPanel 
+public class Screen extends JComponent
 {
 	Chess game;
 	
