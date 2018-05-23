@@ -26,7 +26,7 @@ public class Chess extends JFrame
 	 * 1 = rei
 	 * 2 = rainha
 	 * 3 = bispo
-	 * 4 = cavalo
+	 * 4 = cavaleiro
 	 * 5 = torre
 	 * 6 = peao
 	 * 
