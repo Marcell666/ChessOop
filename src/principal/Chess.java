@@ -46,6 +46,7 @@ public class Chess extends JFrame
 		super(name);
 		setBounds(0,0,WIDTH,HEIGHT);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
 		
 		try
 		{
