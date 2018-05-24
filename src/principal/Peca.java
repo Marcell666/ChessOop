@@ -17,6 +17,6 @@ public class Peca
 	
 	public void desenha(Graphics g, int x, int y) 
 	{
-		g.drawImage(img, x*Chess.TILE_WIDTH ,y*Chess.TILE_HEIGHT , null);
+		g.drawImage(img, x*Chess.TILE_WIDTH, y*Chess.TILE_HEIGHT , null);
 	}
 }

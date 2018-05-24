@@ -16,6 +16,7 @@ public class Chess extends JFrame
 	Peca pecasPretas[];
 	
 	Screen screen;
+	Control control;
 	
 	/*
 	 * 0 = casa vazia
@@ -29,7 +30,7 @@ public class Chess extends JFrame
 	 * negativo = pecas pretas
 	 * */
 	
-	int pecas[][] =  new int[][]
+	private int pecas[][] =  new int[][]
 	{
 		{-5,-4,-3,-2,-1,-3,-4,-5},
 		{-6,-6,-6,-6,-6,-6,-6,-6},
@@ -75,7 +76,7 @@ public class Chess extends JFrame
 			e.printStackTrace();
 			System.err.println("erro ao ler pecas");
 		}
-		
+		control = new Control(this);
 		screen = new Screen(this);
 		screen.setLayout(null);
 		screen.setBounds(0,0,WIDTH,HEIGHT);
@@ -96,6 +97,16 @@ public class Chess extends JFrame
 	int[][] getPecas() 
 	{
 		return pecas;
+	}
+	
+	void movePeca(int xAtual, int yAtual, int xNovo, int yNovo) {
+		pecas[yNovo][xNovo] = pecas[yAtual][xAtual];
+		pecas[yAtual][xAtual] = 0;
+		
+		System.out.printf("mudei de %d,%d para %d,%d",  xAtual, yAtual, xNovo, yNovo);
+		
+		
+		repaint();
 	}
 	
 	public static void main(String[] args) 
