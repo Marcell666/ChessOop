@@ -26,9 +26,8 @@ public class Judge {
 	public void click(int pecas[][], int x, int y) {
 		switch(state) {
 		case BRANCAS:
-			System.out.printf("peca selecionada em %d,%d\n", x,y);
 			if(pecas[y][x]>0) {
-				
+				System.out.printf("peca selecionada em %d,%d\n", x,y);				
 				state = GameState.BRANCAS_SELECIONADA;
 				xSelecionada = x;
 				ySelecionada = y;
@@ -40,7 +39,6 @@ public class Judge {
 			if(pecas[y][x]==0) {
 				state = GameState.BRANCAS;
 				control.move(xSelecionada, ySelecionada, x, y);
-				
 			}
 			break;
 		case PRETAS:

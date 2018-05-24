@@ -1,13 +1,14 @@
 package principal;
 
+import java.awt.Dimension;
 import java.io.IOException;
 
 import javax.swing.JFrame;
 
 public class Chess extends JFrame
 {
-	public static final int WIDTH = 575;
-	public static final int HEIGHT = 600;
+	public static final int WIDTH = 560;
+	public static final int HEIGHT = 560;
 	public static final int QTD_TILES = 8;
 	public static final int TILE_WIDTH = 70;
 	public static final int TILE_HEIGHT = 70;
@@ -45,9 +46,8 @@ public class Chess extends JFrame
 	public Chess(String name) 
 	{
 		super(name);
-		setBounds(0,0,WIDTH,HEIGHT);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLocationRelativeTo(null);
+		setResizable(false);
 		
 		try
 		{
@@ -80,7 +80,11 @@ public class Chess extends JFrame
 		screen = new Screen(this);
 		screen.setLayout(null);
 		screen.setBounds(0,0,WIDTH,HEIGHT);
+		
 		getContentPane().add(screen);
+		getContentPane().setPreferredSize(new Dimension(WIDTH, HEIGHT));
+		pack();
+		setLocationRelativeTo(null);
 		setVisible(true);
 	}
 	
@@ -103,7 +107,7 @@ public class Chess extends JFrame
 		pecas[yNovo][xNovo] = pecas[yAtual][xAtual];
 		pecas[yAtual][xAtual] = 0;
 		
-		System.out.printf("mudei de %d,%d para %d,%d",  xAtual, yAtual, xNovo, yNovo);
+		System.out.printf("mudei de %d,%d para %d,%d\n",  xAtual, yAtual, xNovo, yNovo);
 		
 		
 		repaint();

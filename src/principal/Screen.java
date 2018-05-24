@@ -5,19 +5,22 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 import javax.swing.JComponent;
 
-public class Screen extends JComponent implements MouseListener
+public class Screen extends JComponent implements MouseListener, MouseMotionListener
 {
 	Chess game;
 	Control control;
+	int xTile=0,yTile=0;
 	
 	public Screen(Chess game) 
 	{
 		this.game  = game;
 		control = game.control;
-		game.addMouseListener(this);
+		addMouseListener(this);
+		addMouseMotionListener(this);
 	}
 	
 	@Override
@@ -75,10 +78,6 @@ public class Screen extends JComponent implements MouseListener
 	
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-		System.out.println("x do mouse: "+arg0.getX());
-		System.out.println("y do mouse: "+arg0.getY());
-		
-		control.click(game.getPecas(), convertXToTile(arg0.getX()), convertYToTile( arg0.getY()));
 		
 	}
 
@@ -102,8 +101,30 @@ public class Screen extends JComponent implements MouseListener
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
+		System.out.println("x do mouse: "+arg0.getX());
+		System.out.println("y do mouse: "+arg0.getY());
+		
+		control.click(game.getPecas(), convertXToTile(arg0.getX()), convertYToTile( arg0.getY()));
+		
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent arg0) {
+
+		int xTileN, yTileN;
+		xTileN = convertXToTile(arg0.getX());
+		yTileN = convertYToTile(arg0.getY());
+		if(xTileN != xTile || yTileN != yTile) {
+			System.out.println(xTileN+", "+yTileN);
+			xTile = xTileN;
+			yTile = yTileN;
+		}
 	}
 	
 }
