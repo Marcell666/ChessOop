@@ -9,6 +9,7 @@ import javax.imageio.ImageIO;
 public class Peca
 {	
 	BufferedImage img;
+	BufferedImage imgDestacada;
 	
 	public Peca(String path) throws IOException
 	{
@@ -18,5 +19,6 @@ public class Peca
 	public void desenha(Graphics g, int x, int y) 
 	{
 		g.drawImage(img, x*Chess.TILE_WIDTH, y*Chess.TILE_HEIGHT , null);
+		
 	}
 }

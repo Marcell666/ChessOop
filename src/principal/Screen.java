@@ -3,24 +3,21 @@ package principal;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 
 import javax.swing.JComponent;
 
-public class Screen extends JComponent implements MouseListener, MouseMotionListener
-{
+public class Screen extends JComponent{
 	Chess game;
 	Control control;
-	int xTile=0,yTile=0;
+	MouseHandler mHandler;
+	
+	
 	
 	public Screen(Chess game) 
 	{
 		this.game  = game;
 		control = game.control;
-		addMouseListener(this);
-		addMouseMotionListener(this);
+		mHandler = new MouseHandler(this, control);
 	}
 	
 	@Override
@@ -46,6 +43,28 @@ public class Screen extends JComponent implements MouseListener, MouseMotionList
 			}
 			casaPreta = !casaPreta;
 		}
+		/*	Desenhando	Casa destacada parte 1/2	*/
+		// a.k.a. a casa onde o mouse esta
+		if(mHandler.xTile>=0 && mHandler.xTile<Chess.QTD_TILES &&
+				mHandler.yTile>=0 && mHandler.yTile<Chess.QTD_TILES) {
+			g2d.setColor(new Color(0x00A000));
+			g2d.fillRect(mHandler.xTile*Chess.TILE_WIDTH,mHandler.yTile*Chess.TILE_HEIGHT,Chess.TILE_WIDTH,Chess.TILE_HEIGHT);
+		}
+		
+		/*	Desenhando Peca Selecionada	*/
+		if(control.isSelecionada()) {
+			int x = control.getXSelecionada();
+			int y = control.getYSelecionada();
+			if(x>=0 && x<Chess.QTD_TILES &&
+					y>=0 && y<Chess.QTD_TILES) {
+				g2d.setColor(new Color(0x303080));
+				g2d.fillRect(x*Chess.TILE_WIDTH, y*Chess.TILE_HEIGHT,Chess.TILE_WIDTH,Chess.TILE_HEIGHT);
+			}
+		}
+		
+		/*	Desenhando casas possiveis	*/
+		
+		/*	acessar array de control com as posiçoes que devem ser destacadas?*/
 		
 		/*	Desenhando Pecas	*/
 		
@@ -67,64 +86,7 @@ public class Screen extends JComponent implements MouseListener, MouseMotionList
 			}
 		}
 		
-	}
-
-	private int convertXToTile(int x) {
-		return x/Chess.TILE_WIDTH;
-	}
-	private int convertYToTile(int y) {
-		return y/Chess.TILE_HEIGHT;
-	}
-	
-	@Override
-	public void mouseClicked(MouseEvent arg0) {
 		
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent arg0) {
-		System.out.println("x do mouse: "+arg0.getX());
-		System.out.println("y do mouse: "+arg0.getY());
-		
-		control.click(game.getPecas(), convertXToTile(arg0.getX()), convertYToTile( arg0.getY()));
-		
-	}
-
-	@Override
-	public void mouseDragged(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseMoved(MouseEvent arg0) {
-
-		int xTileN, yTileN;
-		xTileN = convertXToTile(arg0.getX());
-		yTileN = convertYToTile(arg0.getY());
-		if(xTileN != xTile || yTileN != yTile) {
-			System.out.println(xTileN+", "+yTileN);
-			xTile = xTileN;
-			yTile = yTileN;
-		}
 	}
 	
 }

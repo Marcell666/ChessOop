@@ -24,4 +24,16 @@ public class Control {
 	public void move(int xSelecionada, int ySelecionada, int x, int y) {
 		game.movePeca(xSelecionada, ySelecionada, x, y);
 	}
+
+	public boolean isSelecionada() {
+		return judge.isSelecionada();
+	}
+
+	public int getXSelecionada() {
+		return judge.xSelecionada;
+	}
+	
+	public int getYSelecionada() {
+		return judge.ySelecionada;
+	}
 }
