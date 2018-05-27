@@ -1,9 +1,11 @@
-package principal;
+package rules;
+
+import principal.Chess;
 
 public class Control {
 	
 	Chess game;
-	Judge judge;
+	private Judge judge;
 	
 	public Control(Chess game) {
 		this.game = game;	
@@ -35,5 +37,14 @@ public class Control {
 	
 	public int getYSelecionada() {
 		return judge.ySelecionada;
+	}
+	
+	public Integer[] getPos() {
+		return judge.pos;
+	}
+
+	public Integer[] getMovimentoPeca(int x, int y) {
+		// TODO Auto-generated method stub
+		return game.getMovimentoPeca(x, y);
 	}
 }

@@ -1,8 +1,8 @@
-package principal;
+package rules;
 
 public class Judge {
 	
-	/*   RECEBE UM OBJETO DO TIPO MOVE
+	/*   RECEBE UM OBJETO DO TIPO PECA
 	 *   para tratar a movimentacao das pecas*/
 	Control control;
 	
@@ -17,6 +17,7 @@ public class Judge {
 	
 	GameState state;
 	int xSelecionada, ySelecionada;
+	Integer[] pos;
 	
 	public Judge(Control control) {
 		this.control = control;
@@ -27,16 +28,17 @@ public class Judge {
 		switch(state) {
 		case BRANCAS:
 			if(pecas[y][x]>0) {
-				System.out.printf("peca selecionada em %d,%d\n", x,y);				
+				//System.out.printf("peca selecionada em %d,%d\n", x,y);				
 				state = GameState.BRANCAS_SELECIONADA;
 				xSelecionada = x;
 				ySelecionada = y;
+				pos = control.getMovimentoPeca(x , y);
 				//TODO funcao que avisa a tela que uma peca foi selecionada
 			}
 		case BRANCAS_PROMOCAO:
 			break;
 		case BRANCAS_SELECIONADA:
-			if(pecas[y][x]==0) {
+			if(pecas[y][x]==0 && validaPos(pos, x, y)) {
 				state = GameState.PRETAS;
 				
 				control.move(xSelecionada, ySelecionada, x, y);
@@ -48,16 +50,17 @@ public class Judge {
 			break;
 		case PRETAS:
 			if(pecas[y][x]<0) {
-				System.out.printf("peca selecionada em %d,%d\n", x,y);				
+				//System.out.printf("peca selecionada em %d,%d\n", x,y);				
 				state = GameState.PRETAS_SELECIONADA;
 				xSelecionada = x;
 				ySelecionada = y;
+				pos = control.getMovimentoPeca(x , y);
 			}
 			break;
 		case PRETAS_PROMOCAO:
 			break;
 		case PRETAS_SELECIONADA:
-			if(pecas[y][x]==0) {
+			if(pecas[y][x]==0 && validaPos(pos, x, y)) {
 				state = GameState.BRANCAS;
 				control.move(xSelecionada, ySelecionada, x, y);
 			}
@@ -69,6 +72,14 @@ public class Judge {
 		default:
 			break;
 		}
+	}
+	
+	private boolean validaPos(Integer pos[], int x, int y) {
+		for(int i=0; i<pos.length;i+=2) {
+			if(pos[i] == x && pos[i+1] == y)
+				return true;
+		}
+		return false;
 	}
 
 	public boolean isSelecionada() {

@@ -1,4 +1,4 @@
-package principal;
+package gfx;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -6,8 +6,22 @@ import java.awt.Graphics2D;
 
 import javax.swing.JComponent;
 
+import principal.Chess;
+import rules.Control;
+
+
+
 public class Screen extends JComponent{
+	
+	Color casaDestacada = new Color(0x30A030);
+		//onde o mouse esta
+	Color casaSelecionada = new Color(0x3030A0);
+		//ultima casa clicada
+	Color casaMovimento = new Color(0x3030A0);
+		//casas para a onde a peca selecionada pode se mover;
+	
 	Chess game;
+	Animator animator;
 	Control control;
 	MouseHandler mHandler;
 	
@@ -17,6 +31,7 @@ public class Screen extends JComponent{
 	{
 		this.game  = game;
 		control = game.control;
+		animator = game.animator;
 		mHandler = new MouseHandler(this, control);
 	}
 	
@@ -43,13 +58,7 @@ public class Screen extends JComponent{
 			}
 			casaPreta = !casaPreta;
 		}
-		/*	Desenhando	Casa destacada parte 1/2	*/
-		// a.k.a. a casa onde o mouse esta
-		if(mHandler.xTile>=0 && mHandler.xTile<Chess.QTD_TILES &&
-				mHandler.yTile>=0 && mHandler.yTile<Chess.QTD_TILES) {
-			g2d.setColor(new Color(0x00A000));
-			g2d.fillRect(mHandler.xTile*Chess.TILE_WIDTH,mHandler.yTile*Chess.TILE_HEIGHT,Chess.TILE_WIDTH,Chess.TILE_HEIGHT);
-		}
+		
 		
 		/*	Desenhando Peca Selecionada	*/
 		if(control.isSelecionada()) {
@@ -57,14 +66,29 @@ public class Screen extends JComponent{
 			int y = control.getYSelecionada();
 			if(x>=0 && x<Chess.QTD_TILES &&
 					y>=0 && y<Chess.QTD_TILES) {
-				g2d.setColor(new Color(0x303080));
+				g2d.setColor(casaSelecionada);
 				g2d.fillRect(x*Chess.TILE_WIDTH, y*Chess.TILE_HEIGHT,Chess.TILE_WIDTH,Chess.TILE_HEIGHT);
 			}
 		}
 		
 		/*	Desenhando casas possiveis	*/
+		if(control.isSelecionada()) {
+			
+			Integer pos[] = control.getPos();
+			for(int i=0; i<pos.length;i+=2) {
+				g2d.setColor(casaMovimento);
+				g2d.fillRect(pos[i]*Chess.TILE_WIDTH+10, pos[i+1]*Chess.TILE_HEIGHT+10,Chess.TILE_WIDTH-20,Chess.TILE_HEIGHT-20);
+				
+			}
+		}
 		
-		/*	acessar array de control com as posiçoes que devem ser destacadas?*/
+		/*	Desenhando	Casa destacada parte	*/
+		// a.k.a. a casa onde o mouse esta
+		if(mHandler.xTile>=0 && mHandler.xTile<Chess.QTD_TILES &&
+				mHandler.yTile>=0 && mHandler.yTile<Chess.QTD_TILES) {
+			g2d.setColor(casaDestacada);
+			g2d.fillRect(mHandler.xTile*Chess.TILE_WIDTH,mHandler.yTile*Chess.TILE_HEIGHT,Chess.TILE_WIDTH,Chess.TILE_HEIGHT);
+		}
 		
 		/*	Desenhando Pecas	*/
 		
@@ -86,7 +110,16 @@ public class Screen extends JComponent{
 			}
 		}
 		
-		
+
+		System.out.println("desenhando "+animator.isAnimating());
+		if(animator.isAnimating()) {
+			System.out.println("desenhando");
+			animator.desenha(g);
+		}
+	}
+	
+	public void dafuq() {
+		System.out.println("dafuq");
 	}
 	
 }

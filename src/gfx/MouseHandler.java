@@ -1,8 +1,11 @@
-package principal;
+package gfx;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+
+import principal.Chess;
+import rules.Control;
 
 public class MouseHandler implements MouseListener,MouseMotionListener {
 
@@ -31,13 +34,14 @@ public class MouseHandler implements MouseListener,MouseMotionListener {
 		
 	}
 
+
 	@Override
 	public void mouseMoved(MouseEvent arg0) {
 		int xTileN, yTileN;
 		xTileN = convertXToTile(arg0.getX());
 		yTileN = convertYToTile(arg0.getY());
 		if(xTileN != xTile || yTileN != yTile) {
-			System.out.println(xTileN+", "+yTileN);
+			//System.out.println(xTileN+", "+yTileN);
 			xTile = xTileN;
 			yTile = yTileN;
 			screen.repaint();
@@ -70,11 +74,11 @@ public class MouseHandler implements MouseListener,MouseMotionListener {
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
-		System.out.println("x do mouse: "+arg0.getX());
-		System.out.println("y do mouse: "+arg0.getY());
+	//	System.out.println("x do mouse: "+arg0.getX());
+	//	System.out.println("y do mouse: "+arg0.getY());
 		
 		control.click(screen.game.getPecas(), convertXToTile(arg0.getX()), convertYToTile( arg0.getY()));
-		
+		screen.repaint();
 	}
 
 }
