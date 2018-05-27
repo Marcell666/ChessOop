@@ -21,7 +21,6 @@ public class Screen extends JComponent{
 		//casas para a onde a peca selecionada pode se mover;
 	
 	Chess game;
-	Animator animator;
 	Control control;
 	MouseHandler mHandler;
 	
@@ -31,7 +30,6 @@ public class Screen extends JComponent{
 	{
 		this.game  = game;
 		control = game.control;
-		animator = game.animator;
 		mHandler = new MouseHandler(this, control);
 	}
 	
@@ -110,12 +108,6 @@ public class Screen extends JComponent{
 			}
 		}
 		
-
-		System.out.println("desenhando "+animator.isAnimating());
-		if(animator.isAnimating()) {
-			System.out.println("desenhando");
-			animator.desenha(g);
-		}
 	}
 	
 	public void dafuq() {

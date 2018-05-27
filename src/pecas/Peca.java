@@ -24,19 +24,7 @@ public abstract class Peca
 	
 	public void desenha(Graphics g, int x, int y) 
 	{
-		/*
-		 * Essa classe deveria usar as constantes de Chess
-		 * ou eu deveria deixar para a Screen fazer isso?
-		 * 
-		 * Se eu retirar essa constante daqui so vou precisar de uma funcao de desenhar
-		 * 
-		 * */
-		desenhaPx(g, x*Chess.TILE_WIDTH, y*Chess.TILE_HEIGHT);
-	}
-	
-	public void desenhaPx(Graphics g, int x, int y) 
-	{
-		g.drawImage(img, x, y, null);
+		g.drawImage(img, x*Chess.TILE_WIDTH, y*Chess.TILE_HEIGHT, null);
 	}
 	
 	public Integer[] move(int pecas[][],int x, int y) {

@@ -5,7 +5,6 @@ import java.io.IOException;
 
 import javax.swing.JFrame;
 
-import gfx.Animator;
 import gfx.Screen;
 import pecas.Bispo;
 import pecas.Cavaleiro;
@@ -29,7 +28,6 @@ public class Chess extends JFrame
 	
 	public Screen screen;
 	public Control control;
-	public Animator animator;
 	
 	private int pecaId;
 	
@@ -91,11 +89,9 @@ public class Chess extends JFrame
 			System.err.println("erro ao ler pecas");
 		}
 		control = new Control(this);
-		animator = new Animator(this);
 		screen = new Screen(this);
 		screen.setLayout(null);
 		screen.setBounds(0,0,WIDTH,HEIGHT);
-		animator.setScreen(screen);
 		
 		getContentPane().add(screen);
 		getContentPane().setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -120,34 +116,14 @@ public class Chess extends JFrame
 	}
 	
 	public void movePeca(int xAtual, int yAtual, int xNovo, int yNovo) {
-		pecaId = pecas[yAtual][xAtual];
-		
+		pecas[yNovo][xNovo] = pecas[yAtual][xAtual];		
 		pecas[yAtual][xAtual] = 0;
-		
-		assert(pecaId!=0);
-		
-		try {
-			if(pecaId>0)
-				animator.anima(pecasBrancas[pecaId-1], xAtual, yAtual, xNovo, yNovo);
-			else
-				animator.anima(pecasPretas[-pecaId-1], xAtual, yAtual, xNovo, yNovo);
-		} catch (InterruptedException e) {
-			System.err.println("Erro ao tentar animar peca"); 
-			e.printStackTrace();
-		}
-		
-
-		//pecas[yNovo][xNovo] = pecaId;
 		
 		
 		
 		//System.out.printf("mudei de %d,%d para %d,%d\n",  xAtual, yAtual, xNovo, yNovo);
 		
-		//repaint();
-	}
-	
-	public void terminaAnimacao(int x, int y) {
-		pecas[y][x] = pecaId;
+		repaint();
 	}
 	
 	public Integer[] getMovimentoPeca(int x, int y) {
