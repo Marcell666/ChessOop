@@ -205,6 +205,10 @@ public class Chess extends JFrame
 		/*
 		 * O comando abaixo coloca um componente proximo a outro
 		 * Quando passamos null ele fica no meio da tela
+		 * 
+		 * Note que a função pack altera a localização da janela
+		 * na tela
+		 * Chamar essas funções nessa ordem corrige isso.
 		 */
 		setLocationRelativeTo(null);
 		/*
