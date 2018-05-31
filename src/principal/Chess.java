@@ -17,6 +17,9 @@ public class Chess extends JFrame
 	Peca pecasPretas[];
 	
 	Screen screen;
+	/*
+	 * Control vai fazer ser o intermediario entre as classes chess e judge
+	 */
 	Control control;
 	
 	/*
@@ -47,6 +50,11 @@ public class Chess extends JFrame
 	{
 		super(name);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		/*
+		 * Nao queremos que o usuario seja capaz de mudar as dimensoes da tela
+		 * assim ele nao vai conseguir aumentar a tela e clicar fora do
+		 * tabuleiro por exemplo
+		 */
 		setResizable(false);
 		
 		try
@@ -103,13 +111,25 @@ public class Chess extends JFrame
 		return pecas;
 	}
 	
+	/*
+	 * Essa função é chamada por control, quando ele recebe uma confirmação
+	 * de judge de que uma peca deve ser movida para outro lugar
+	 * 
+	 * Ela recebe localizado no tabuleiro da peca que deve se mover,
+	 * e a nova localização dela no tabuleiro
+	 */
 	void movePeca(int xAtual, int yAtual, int xNovo, int yNovo) {
 		pecas[yNovo][xNovo] = pecas[yAtual][xAtual];
 		pecas[yAtual][xAtual] = 0;
 		
 		System.out.printf("mudei de %d,%d para %d,%d\n",  xAtual, yAtual, xNovo, yNovo);
 		
-		
+		/*
+		 * chamamos repaint para atualizar a posiçao da peça
+		 * a função repaint chamada a função paintComponent no componente e
+		 * em seus componentes filhos da forma apropriada
+		 * 
+		 */
 		repaint();
 	}
 	

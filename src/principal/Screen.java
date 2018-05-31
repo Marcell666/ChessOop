@@ -13,12 +13,45 @@ public class Screen extends JComponent implements MouseListener, MouseMotionList
 {
 	Chess game;
 	Control control;
+	/*
+	 * Estou guardando o tile no qual o mouse esta localizado
+	 * 
+	 */
 	int xTile=0,yTile=0;
 	
 	public Screen(Chess game) 
 	{
 		this.game  = game;
 		control = game.control;
+		
+		/*
+		 * Para capturar ações do mouse e do teclado, precisamos
+		 * dos listeners
+		 * 
+		 * um listener é um classe que implementa as interfaces e funções
+		 * apropriadas.
+		 * Esta classe é um listener como voce pode ver la em cima
+		 * 
+		 * MouseListener nos permite detectar cliques do mouse
+		 * e MotionListener o movimento
+		 * note que estamos colocando esta classe para ser o listener de 
+		 * eventos do mouse neste objeto
+		 * Isso quer dizer que se tivermos duas instancias os eventos serao duplicados
+		 * tambem quer dizer que temos este priprio objeto como referencia
+		 * 
+		 * Se colocarmos a classe chess(JFrame) para receber os eventos do mouse
+		 * game.addMouseListener(this);
+		 * Quando formos verificar a posição do clique, essa posição vai ser relativa a janela
+		 * e novamente considerando as barrais laterais e superior.
+		 * causando uma imprecisão no clique.
+		 * 
+		 * Por isso estamos adicionando o listener a propria tela, preenche
+		 *  o tamanhdo do conteudo da janela e comeca no 0,0 apropriado
+		 * 
+		 * Note que outro objeto/classe poderia ser usado como listener
+		 * Na verdade isso deixaria as coisas mais organizadas
+		 * 
+		 */
 		addMouseListener(this);
 		addMouseMotionListener(this);
 	}
@@ -69,6 +102,11 @@ public class Screen extends JComponent implements MouseListener, MouseMotionList
 		
 	}
 
+	/*
+	 * Essas funções são so para converter de posiçao pixel a pixel
+	 * para localização na matriz do tabuleiro
+	 */
+	
 	private int convertXToTile(int x) {
 		return x/Chess.TILE_WIDTH;
 	}
@@ -99,11 +137,23 @@ public class Screen extends JComponent implements MouseListener, MouseMotionList
 		
 	}
 
+	/*
+	 * Eventos de mouse com frequencia ficam somente quando ele solta, para
+	 * dar a chance de cancelar a ação arrastando o mouse para longe e soltando
+	 * em outro lugar completamente diferente.
+	 * 
+	 * Isso nao seria possivel se capturassemos e reagissemos ao mousePress 
+	 * 
+	 */
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
 		System.out.println("x do mouse: "+arg0.getX());
 		System.out.println("y do mouse: "+arg0.getY());
 		
+		/*
+		 * Ao clicar passamos para o controle a matriz do tabuleiro e a posicao
+		 * do clique em relação ao tabuleiro
+		 */
 		control.click(game.getPecas(), convertXToTile(arg0.getX()), convertYToTile( arg0.getY()));
 		
 	}
@@ -114,12 +164,22 @@ public class Screen extends JComponent implements MouseListener, MouseMotionList
 		
 	}
 
+	/*
+	 *	Estou guardando a posicao que o mouse esta na matriz
+	 * ela é atualizada quando mudo de quadrado (tile) 
+	 */
 	@Override
 	public void mouseMoved(MouseEvent arg0) {
 
 		int xTileN, yTileN;
 		xTileN = convertXToTile(arg0.getX());
 		yTileN = convertYToTile(arg0.getY());
+		/*
+		 * Se o tile que o mouse esta agora for diferente do tile no qual
+		 * ele estava da ultima vez que movi
+		 * atualizo o tile onde ele esta
+		 * 
+		 */
 		if(xTileN != xTile || yTileN != yTile) {
 			System.out.println(xTileN+", "+yTileN);
 			xTile = xTileN;

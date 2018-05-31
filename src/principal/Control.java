@@ -11,6 +11,14 @@ public class Control {
 		
 	}
 	
+	/*
+	 * As duas funções abaixo simplesmente repassam os parametros de chess/screen para judge
+	 * e de judge para chess/screen
+	 * 
+	 * A funçao click é chamada por screen quando clicamos no tabuleiro
+	 * A função move é chamada por judge quando clicamos numa peca que queremos mover
+	 */
+	
 	/**
 	 * @param x e do tile
 	 * @param y e do tile
