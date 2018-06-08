@@ -126,6 +126,10 @@ public class Chess extends JFrame
 		repaint();
 	}
 	
+	/*
+	 * 
+	 */
+	
 	public Integer[] getMovimentoPeca(int x, int y) {
 		int peca = pecas[y][x];
 		assert(peca!=0);

@@ -7,6 +7,10 @@ import principal.Chess;
 
 public class MNorte implements IMove{
 
+	/*
+	 * Semelhante ao MSul deve ser possivel generalizar
+	 */
+	
 	@Override
 	public Integer[] move(int[][] pecas, int x, int y) {
 		int xPos = x;

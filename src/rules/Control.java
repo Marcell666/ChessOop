@@ -13,16 +13,19 @@ public class Control {
 		
 	}
 	
-	/**
-	 * @param x e do tile
-	 * @param y e do tile
-	 * 		Recebe x e y como posicao na matriz
+	/*
+	 * Recebe x e y como posicao na matriz
 	 * nao como posicao em pixels
+	 * 
+	 * Avisa ao judge que o jogador clicou numa posição
 	 * */
 	public void click(int pecas[][],int x, int y) {
 		judge.click(pecas, x, y);
 	}
 
+	/*
+	 * resposta do judge, uma peca deve ser movida de uma posição para outra
+	 */
 	public void move(int xSelecionada, int ySelecionada, int x, int y) {
 		game.movePeca(xSelecionada, ySelecionada, x, y);
 	}
