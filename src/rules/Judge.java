@@ -1,5 +1,7 @@
 package rules;
 
+import principal.Chess;
+
 public class Judge {
 	
 	Control control;
@@ -45,7 +47,7 @@ public class Judge {
 		case BRANCAS_PROMOCAO:
 			break;
 		case BRANCAS_SELECIONADA:
-			if(pecas[y][x]==0 && validaPos(pos, x, y)) {
+			if(validaPos(pos, x, y)) {
 				state = GameState.PRETAS;
 				
 				control.move(xSelecionada, ySelecionada, x, y);
@@ -53,6 +55,12 @@ public class Judge {
 			else {
 				state = GameState.BRANCAS;
 			}
+			
+			//verificando promocao
+			
+			if(control.isPeao(x,y) && y == 0)
+					control.promove(x,y);
+			
 			break;
 		case PRETAS:
 			if(pecas[y][x]<0) {
@@ -66,7 +74,7 @@ public class Judge {
 		case PRETAS_PROMOCAO:
 			break;
 		case PRETAS_SELECIONADA:
-			if(pecas[y][x]==0 && validaPos(pos, x, y)) {
+			if(validaPos(pos, x, y)) {
 				state = GameState.BRANCAS;
 				control.move(xSelecionada, ySelecionada, x, y);
 			}
@@ -74,6 +82,11 @@ public class Judge {
 				state = GameState.PRETAS;
 				//TODO funcao que avisa a tela que a peca nao esta mais selecionada
 			}
+			
+			//verificando promocao
+			
+			if(control.isPeao(x,y) && y==Chess.QTD_TILES-1)
+					control.promove(x,y);
 			break;
 		default:
 			break;
@@ -81,7 +94,7 @@ public class Judge {
 	}
 	
 	/*
-	 * Verifica se a possição passada esta no vetor de possicoes
+	 * Verifica se a possição passada esta no vetor de posicoes
 	 */
 	private boolean validaPos(Integer pos[], int x, int y) {
 		for(int i=0; i<pos.length;i+=2) {

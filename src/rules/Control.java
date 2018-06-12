@@ -50,4 +50,13 @@ public class Control {
 		// TODO Auto-generated method stub
 		return game.getMovimentoPeca(x, y);
 	}
+
+	public boolean isPeao(int x, int y) {
+		return game.isPeao(x,y);
+	}
+
+	public void promove(int x, int y) {
+		game.promove(x,y);
+	}
+	
 }

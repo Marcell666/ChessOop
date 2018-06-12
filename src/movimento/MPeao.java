@@ -5,6 +5,28 @@ import principal.Chess;
 public class MPeao extends MoveBase implements IMove{
 	
 	@Override
+	protected void adicionaVetor(int pecas[][], int x, int y, int xDelta, int yDelta, int distancia){
+		int xPos = x+xDelta;
+		int yPos = y+yDelta;
+		for(int i = 1; i<=distancia; i++) {
+			/*
+			 * TODO generalizar todas as malditas exceções do peao
+			 * O peao nao captura para frente, por isso essa funcao esta copiada
+			 */			
+			
+			if(valida(xPos, yPos) && pecas[yPos][xPos]==0) {
+				pos.add(xPos);
+				pos.add(yPos);
+				if(pecas[yPos][xPos]!=0 && validaCor(pecas[y][x],pecas[yPos][xPos]))
+					return;
+			}
+			else return;
+			xPos+=xDelta;
+			yPos+=yDelta;
+		}
+	}
+	
+	@Override
 	public Integer[] move(int[][] pecas, int x, int y) {
 		int xPos;
 		int yPos;
@@ -19,6 +41,7 @@ public class MPeao extends MoveBase implements IMove{
 			distancia = 2;
 		
 		adicionaVetor(pecas, x, y, 0, getCor(pecas, x, y) ? -1 : 1, distancia);
+		//O peao nao captura para frente...
 		
 		/*
 		 * 

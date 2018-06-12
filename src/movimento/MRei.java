@@ -8,12 +8,12 @@ public class MRei extends MoveBase implements IMove {
 		pos.clear();
 
 		adicionaVetor(pecas, x, y, -1,-1, 1);
-		adicionaVetor(pecas, x, y, -1, 1, 1);
+		adicionaVetor(pecas, x, y, -1, 0, 1);
 		adicionaVetor(pecas, x, y, -1,+1, 1);
-		adicionaVetor(pecas, x, y,  1,-1, 1);
-		adicionaVetor(pecas, x, y,  1,+1, 1);
+		adicionaVetor(pecas, x, y,  0,-1, 1);
+		adicionaVetor(pecas, x, y,  0,+1, 1);
 		adicionaVetor(pecas, x, y, +1,-1, 1);
-		adicionaVetor(pecas, x, y, +1, 1, 1);
+		adicionaVetor(pecas, x, y, +1, 0, 1);
 		adicionaVetor(pecas, x, y, +1,-1, 1);
 		
 		return pos.toArray(new Integer[0]);

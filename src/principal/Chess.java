@@ -1,9 +1,14 @@
 package principal;
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import gfx.Screen;
 import pecas.Bispo;
@@ -21,6 +26,8 @@ import rules.Control;
  * Ela nao implementa IMove, cabe a cada subclasse fazer isso
  * Juntei os movimentos de peao: norte e sul na mesma classe
  * Retirei as contstantes de cor que estavam na classe peca
+ * 
+ * 
  * 
  */
 
@@ -61,7 +68,7 @@ public class Chess extends JFrame
 		{ 0, 0, 0, 0, 0, 0, 0, 0},
 		{ 0, 0, 0, 0, 0, 0, 0, 0},
 		{ 0, 0, 0, 0, 0, 0, 0, 0},
-		{ 6, 6, 6, 6, 6, 6, 6, 6},
+		{ 6, 6, 6, 6, 6, 6, -6, 6},
 		{ 5, 4, 3, 2, 1, 3, 4, 5}
 	};
 	
@@ -150,4 +157,47 @@ public class Chess extends JFrame
 		new Chess("XADREZ");
 	}
 
+	public boolean isPeao(int x, int y) {
+		return Math.abs(pecas[y][x]) == 6;
+	}
+	
+	public void promove(int x, int y) {
+		/*
+		 * TODO
+		 * melhorar esta funcao
+		 */
+		/*
+		JButton imgPecas[] = new JButton[4];
+		JButton b;
+		for(int i=0; i<4;i++) {
+			b = new JButton(new ImageIcon(pecasBrancas[i+1].getImage()));
+			b.addActionListener(new RespondeBotao());
+			b.setName(Integer.toString(i));
+			imgPecas[i] = b;
+		}
+		*/
+		Object[] teste = {"rainha", "bispo", "cavaleiro", "torre", "peao"};
+		int opcao = JOptionPane.showOptionDialog(this, "Para qual peça gostaria que o peão fosse promovido?", "Promoção de Peça", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, teste, "rainha");
+		System.out.println("peca selecionada foi: " + opcao);
+		if(pecas[y][x]<0)
+			pecas[y][x] = -(opcao+2);
+		else
+			pecas[y][x] = opcao+2;
+		
+	}
+
 }
+/*
+class RespondeBotao implements ActionListener{
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		JButton b = (JButton) arg0.getSource();
+		int opcao = Integer.parseInt((b).getName());
+		JOptionPane p = (JOptionPane) b.getParent().getParent();
+		System.out.println(opcao);
+		p.setValue(opcao);
+	}
+	
+}
+*/

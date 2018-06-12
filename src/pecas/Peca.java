@@ -81,4 +81,8 @@ public abstract class Peca
 	public Integer[] move(int pecas[][],int x, int y) {
 		return pecaMovimento.move(pecas, x, y);
 	}
+
+	public BufferedImage getImage() {
+		return img;
+	}
 }
