@@ -2,8 +2,7 @@ package pecas;
 
 import java.io.IOException;
 
-import movimento.MNorte;
-import movimento.MSul;
+import movimento.MPeao;
 
 public class Peao extends Peca {
 	
@@ -14,12 +13,9 @@ public class Peao extends Peca {
 	 * saber a posição inicial tambem poderia resolver.
 	 */
 	
-	public Peao(String path, boolean corDaPeca) throws IOException {
+	public Peao(String path) throws IOException {
 		super(path);
-		if(corDaPeca == BRANCA)
-			pecaMovimento = new MNorte();
-		else
-			pecaMovimento = new MSul();
+		pecaMovimento = new MPeao();
 	}
 
 }

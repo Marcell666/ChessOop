@@ -3,26 +3,11 @@ package movimento;
 import java.util.ArrayList;
 import java.util.List;
 
-import principal.Chess;
-
-public class MCavaleiro implements IMove {
-
-	/*
-	 * TODO
-	 * 		Mover essa funcao para outro lugar
-	 * 		Essa função de validacao esta sendo usada em algumas partes do codigo
-	 * 		talvez devesse ser um função auxiliar statica em alguma dessas classes
-	 * 
-	 * 
-	 * */
-	
-	private boolean valida(int x,int y) {
-		return x>=0 && x<Chess.QTD_TILES &&
-				y>=0 && y<Chess.QTD_TILES;
-	}
+public class MCavaleiro extends MoveBase implements IMove {
 	
 	@Override
 	public Integer[] move(int[][] pecas, int x, int y) {
+		pos.clear();
 
 		/*
 		 * Eu devo melhorar essas funçoes depois
@@ -55,7 +40,7 @@ public class MCavaleiro implements IMove {
 		 */
 		
 		for(int i=0; i<posicoes.length;i+=2) {
-			if(valida(posicoes[i], posicoes[i+1]) && pecas[posicoes[i+1]][posicoes[i]] == 0) {
+			if(valida(posicoes[i], posicoes[i+1]) && validaCor(pecas[y][x] , pecas[posicoes[i+1]][posicoes[i]])) {
 				pos.add(posicoes[i]);
 				pos.add(posicoes[i+1]);
 			}

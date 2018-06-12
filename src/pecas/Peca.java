@@ -10,11 +10,7 @@ import movimento.IMove;
 import principal.Chess;
 
 public abstract class Peca
-{	
-	//Essas constantes serao usadas pelo peao
-	public static final boolean BRANCA = true;
-	public static final boolean PRETA = false;
-	
+{		
 	BufferedImage img;
 	
 	/*

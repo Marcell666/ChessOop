@@ -15,6 +15,16 @@ import pecas.Rei;
 import pecas.Torre;
 import rules.Control;
 
+/*
+ * 11/06/2018
+ * Fiz a clase abstrata MoveBase que serve de base base para as classe que implementao a interface IMove
+ * Ela nao implementa IMove, cabe a cada subclasse fazer isso
+ * Juntei os movimentos de peao: norte e sul na mesma classe
+ * Retirei as contstantes de cor que estavam na classe peca
+ * 
+ */
+
+
 public class Chess extends JFrame
 {
 	public static final int WIDTH = 560;
@@ -70,7 +80,7 @@ public class Chess extends JFrame
 				new Bispo("/BispoBr.png"),
 				new Cavaleiro("/CavaloBr.png"),
 				new Torre("/TorreBr.png"),
-				new Peao("/PeaoBr.png", Peca.BRANCA)
+				new Peao("/PeaoBr.png")
 			};
 		
 			pecasPretas = new Peca[]
@@ -80,7 +90,7 @@ public class Chess extends JFrame
 				new Bispo("/BispoPr.png"),
 				new Cavaleiro("/CavaloPr.png"),
 				new Torre("/TorrePr.png"),
-				new Peao("/PeaoPr.png", Peca.PRETA)
+				new Peao("/PeaoPr.png")
 			};
 		}
 		catch(IOException e) 
@@ -125,10 +135,6 @@ public class Chess extends JFrame
 		
 		repaint();
 	}
-	
-	/*
-	 * 
-	 */
 	
 	public Integer[] getMovimentoPeca(int x, int y) {
 		int peca = pecas[y][x];
