@@ -162,42 +162,24 @@ public class Chess extends JFrame
 	}
 	
 	public void promove(int x, int y) {
-		/*
-		 * TODO
-		 * melhorar esta funcao
-		 */
-		/*
-		JButton imgPecas[] = new JButton[4];
-		JButton b;
-		for(int i=0; i<4;i++) {
-			b = new JButton(new ImageIcon(pecasBrancas[i+1].getImage()));
-			b.addActionListener(new RespondeBotao());
-			b.setName(Integer.toString(i));
-			imgPecas[i] = b;
+
+		ImageIcon imgPecas[] = new ImageIcon[5];
+		int opcao=0;
+		
+		for(int i=0; i<5;i++) {
+			if(pecas[y][x]<0)
+				imgPecas[i] = new ImageIcon(pecasPretas[i+1].getImage());
+			else
+				imgPecas[i] = new ImageIcon(pecasBrancas[i+1].getImage());
 		}
-		*/
-		Object[] teste = {"rainha", "bispo", "cavaleiro", "torre", "peao"};
-		int opcao = JOptionPane.showOptionDialog(this, "Para qual peça gostaria que o peão fosse promovido?", "Promoção de Peça", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, teste, "rainha");
+		do {
+			opcao = JOptionPane.showOptionDialog(this, "Para qual peça gostaria que o peão fosse promovido?", "Promoção de Peça", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, imgPecas, "rainha");
+		}while(opcao==JOptionPane.CLOSED_OPTION);
+		
 		System.out.println("peca selecionada foi: " + opcao);
 		if(pecas[y][x]<0)
 			pecas[y][x] = -(opcao+2);
 		else
-			pecas[y][x] = opcao+2;
-		
+			pecas[y][x] = opcao+2;		
 	}
-
 }
-/*
-class RespondeBotao implements ActionListener{
-
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		JButton b = (JButton) arg0.getSource();
-		int opcao = Integer.parseInt((b).getName());
-		JOptionPane p = (JOptionPane) b.getParent().getParent();
-		System.out.println(opcao);
-		p.setValue(opcao);
-	}
-	
-}
-*/
