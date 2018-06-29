@@ -3,6 +3,7 @@ package pecas;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -78,7 +79,7 @@ public abstract class Peca
 	 * 
 	 * Quando tiver que lidar com classes Wrapper tome cuidado com as conversões
 	 */
-	public Integer[] move(int pecas[][],int x, int y) {
+	public List<Integer> move(int pecas[][],int x, int y) {
 		return pecaMovimento.move(pecas, x, y);
 	}
 

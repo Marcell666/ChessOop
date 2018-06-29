@@ -1,5 +1,7 @@
 package movimento;
 
+import java.util.List;
+
 import principal.Chess;
 
 public class MPeao extends MoveBase implements IMove{
@@ -27,7 +29,7 @@ public class MPeao extends MoveBase implements IMove{
 	}
 	
 	@Override
-	public Integer[] move(int[][] pecas, int x, int y) {
+	public List<Integer> move(int[][] pecas, int x, int y) {
 		int xPos;
 		int yPos;
 		int distancia = 1;
@@ -82,6 +84,11 @@ public class MPeao extends MoveBase implements IMove{
 			pos.add(yPos);
 		}
 		
-		return pos.toArray(new Integer[0]);
+		return pos;
+	}
+	
+	@Override
+	public List<Integer> move(int[][] pecas, int x, int y, boolean left, boolean right) {
+		return move(pecas, x, y);
 	}
 }

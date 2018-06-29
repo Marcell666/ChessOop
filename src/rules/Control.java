@@ -1,16 +1,36 @@
 package rules;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import principal.Chess;
 
 public class Control {
 	
+	private static Control control;
 	Chess game;
-	private Judge judge;
+	private static Judge judge;
 	
-	public Control(Chess game) {
-		this.game = game;	
-		judge = new Judge(this);
+	private Control() {};
+	
+	public static Control getInstance() {
+		if(control == null) {
+			control = new Control();
+			if(judge == null)
+				judge = new Judge(control);
+		}
 		
+		return control;
+	}
+	
+	public Control setGame(Chess game) {
+		this.game = game;
+		return this;
+	}
+	
+	public void registra(Observer o) {
+		judge.addObserver(o);
+		judge.notifyObservers();
 	}
 	
 	/*
@@ -19,15 +39,8 @@ public class Control {
 	 * 
 	 * Avisa ao judge que o jogador clicou numa posição
 	 * */
-	public void click(int pecas[][],int x, int y) {
-		judge.click(pecas, x, y);
-	}
-
-	/*
-	 * resposta do judge, uma peca deve ser movida de uma posição para outra
-	 */
-	public void move(int xSelecionada, int ySelecionada, int x, int y) {
-		game.movePeca(xSelecionada, ySelecionada, x, y);
+	public void click(int x, int y) {
+		judge.click(x, y);
 	}
 
 	public boolean isSelecionada() {
@@ -43,20 +56,14 @@ public class Control {
 	}
 	
 	public Integer[] getPos() {
-		return judge.pos;
+		return judge.pos.toArray(new Integer[0]);
 	}
 
-	public Integer[] getMovimentoPeca(int x, int y) {
-		// TODO Auto-generated method stub
-		return game.getMovimentoPeca(x, y);
+	public void salvar() {
+		judge.salvar();
 	}
-
-	public boolean isPeao(int x, int y) {
-		return game.isPeao(x,y);
-	}
-
-	public void promove(int x, int y) {
-		game.promove(x,y);
+	public void carregar() {
+		judge.carregar();
 	}
 	
 }

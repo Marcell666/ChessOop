@@ -6,7 +6,7 @@ import java.util.List;
 public class MCavaleiro extends MoveBase implements IMove {
 	
 	@Override
-	public Integer[] move(int[][] pecas, int x, int y) {
+	public List<Integer> move(int[][] pecas, int x, int y) {
 		pos.clear();
 
 		/*
@@ -51,7 +51,12 @@ public class MCavaleiro extends MoveBase implements IMove {
 		 * Mas é preciso dizer o tipo do conteudo, e por isso passamos um vetor com zero posicoes deste mesmo tipo
 		 * Se passarmos um vetor com espaco suficiente, ele sera preenchido pela funcao
 		 */
-		return pos.toArray(new Integer[0]);
+		return pos;
 	}
 
+	@Override
+	public List<Integer> move(int[][] pecas, int x, int y, boolean left, boolean right) {
+		return move(pecas, x, y);
+	}
+	
 }

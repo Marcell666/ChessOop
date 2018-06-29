@@ -1,14 +1,65 @@
 package gfx;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+
 import principal.Chess;
 import rules.Control;
 
-public class MouseHandler implements MouseListener,MouseMotionListener {
+class MenuContextoBotao implements ActionListener{
+	Control control;
+	JMenuItem source;
+	
+	public MenuContextoBotao(Control control) {
+		this.control = control;
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		source = (JMenuItem) e.getSource();
+		System.out.println(e.getSource()==null);
+		switch(source.getName()) {
+		case "itemSalvar":
+			System.out.println("Salvar");
+			control.salvar();
+			break;
+		case "itemCarregar":
+			System.out.println("Carregar");
+			control.carregar();
+			break;
+		default:
+			break;
+		}
+	}
+}
+class MenuContexto extends JPopupMenu {
+    JMenuItem itemSalvar;
+    JMenuItem itemCarregar;
+    MenuContextoBotao respondeBotao;
+    public MenuContexto(Control control){
+        itemSalvar = new JMenuItem("Salvar Jogo");
+        itemCarregar = new JMenuItem("Carregar Jogo");
+        itemSalvar.setName("itemSalvar");
+        itemCarregar.setName("itemCarregar");
+        
+        respondeBotao = new MenuContextoBotao(control);
+        
+        itemSalvar.addActionListener(respondeBotao);
+        itemCarregar.addActionListener(respondeBotao);
+        add(itemSalvar);
+        add(itemCarregar);
+    }
+}
 
+public class MouseHandler implements MouseListener, MouseMotionListener {
+
+	MenuContexto menu;
 	Screen screen;
 	Control control;
 	int xTile=0,yTile=0;
@@ -16,6 +67,7 @@ public class MouseHandler implements MouseListener,MouseMotionListener {
 	public MouseHandler(Screen screen, Control control) {
 		this.screen = screen;
 		this.control = control;
+        menu = new MenuContexto(control);
 		screen.addMouseListener(this);
 		screen.addMouseMotionListener(this);
 	}
@@ -67,18 +119,23 @@ public class MouseHandler implements MouseListener,MouseMotionListener {
 	}
 
 	@Override
-	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
+	public void mousePressed(MouseEvent e) {
+		if (e.isPopupTrigger()) {
+        	menu.show(e.getComponent(), e.getX(), e.getY());
+        }
 	}
-
+	
 	@Override
-	public void mouseReleased(MouseEvent arg0) {
-	//	System.out.println("x do mouse: "+arg0.getX());
-	//	System.out.println("y do mouse: "+arg0.getY());
-		
-		control.click(screen.game.getPecas(), convertXToTile(arg0.getX()), convertYToTile( arg0.getY()));
-		screen.repaint();
+	public void mouseReleased(MouseEvent e) {
+		if (e.isPopupTrigger()) {
+        	menu.show(e.getComponent(), e.getX(), e.getY());
+        }
+		else {
+			//System.out.println("x do mouse: "+arg0.getX());
+			//System.out.println("y do mouse: "+arg0.getY());
+			control.click(convertXToTile(e.getX()), convertYToTile( e.getY()));
+			screen.repaint();
+		}
 	}
 
 }

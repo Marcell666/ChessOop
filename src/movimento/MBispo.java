@@ -1,9 +1,11 @@
 package movimento;
 
+import java.util.List;
+
 public class MBispo extends MoveBase implements IMove {
 		
 	@Override
-	public Integer[] move(int[][] pecas, int x, int y) {
+	public List<Integer> move(int[][] pecas, int x, int y) {
 		pos.clear();
 		
 		//Nordeste
@@ -15,7 +17,12 @@ public class MBispo extends MoveBase implements IMove {
 		//leste
 		adicionaVetor(pecas, x, y, 1,1);
 		
-		return pos.toArray(new Integer[0]);
+		return pos;
+	}
+
+	@Override
+	public List<Integer> move(int[][] pecas, int x, int y, boolean left, boolean right) {
+		return move(pecas, x, y);
 	}
 
 }

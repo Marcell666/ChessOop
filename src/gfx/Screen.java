@@ -3,15 +3,18 @@ package gfx;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JComponent;
 
 import principal.Chess;
 import rules.Control;
+import rules.ObservableChess;
 
 
 
-public class Screen extends JComponent{
+public class Screen extends JComponent implements Observer{
 	
 	Color casaBranca = Color.WHITE;
 	Color casaPreta = Color.DARK_GRAY;
@@ -40,6 +43,7 @@ public class Screen extends JComponent{
 	Chess game;
 	Control control;
 	MouseHandler mHandler;
+	private ObservableChess ultimaFonte;
 	
 	/*
 	 * A classe screen cuida do que é desenhado na tela,
@@ -63,6 +67,9 @@ public class Screen extends JComponent{
 	{
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
+
+		//System.out.println("ultimaFonte: "+(ultimaFonte == null));
+		if(ultimaFonte == null ) return;
 		
 		/*
 		 * Para este projeto, nao precisamos fazer uma sistema de layers(camadas)
@@ -102,9 +109,9 @@ public class Screen extends JComponent{
 		
 		
 		/*	Desenhando Casa Selecionada	*/
-		if(control.isSelecionada()) {
-			int x = control.getXSelecionada();
-			int y = control.getYSelecionada();
+		if(ultimaFonte.isSelecionada()) {
+			int x = ultimaFonte.getXSelecionada();
+			int y = ultimaFonte.getYSelecionada();
 			if(x>=0 && x<Chess.QTD_TILES &&
 					y>=0 && y<Chess.QTD_TILES) {
 				g2d.setColor(casaSelecionada);
@@ -120,9 +127,9 @@ public class Screen extends JComponent{
 		 * Esta classe chama essa função para destacar as casas para onde
 		 * a peca selecionada pode se mover
 		 * */
-		if(control.isSelecionada()) {
+		if(ultimaFonte.isSelecionada()) {
 			
-			Integer pos[] = control.getPos();
+			Integer pos[] = ultimaFonte.getPos();
 			for(int i=0; i<pos.length;i+=2) {
 				g2d.setColor(casaMovimento);
 				g2d.fillRect(pos[i]*Chess.TILE_WIDTH+10, pos[i+1]*Chess.TILE_HEIGHT+10,Chess.TILE_WIDTH-20,Chess.TILE_HEIGHT-20);
@@ -144,20 +151,26 @@ public class Screen extends JComponent{
 		{
 			for(int e=0;e<Chess.QTD_TILES;e++) 
 			{
-				int id = game.getPecas()[i][e];
+				int id = ultimaFonte.getPecas()[i][e];
 				
 				if(id > 0)
 				{
-					game.getPecasBrancas()[id-1].desenha(g, e, i);
+					ultimaFonte.getPecasBrancas()[id-1].desenha(g, e, i);
 				}
 				else if(id < 0)
 				{
 					id=-id;
-					game.getPecasPretas()[id-1].desenha(g, e, i);
+					ultimaFonte.getPecasPretas()[id-1].desenha(g, e, i);
 				}
 			}
 		}
 		
 	}
-	
+
+	@Override
+	public void update(Observable o, Object arg) {
+		//System.out.println("update");
+		ultimaFonte = (ObservableChess) o; //sempre o juiz, na verdade
+		repaint();
+	}	
 }
