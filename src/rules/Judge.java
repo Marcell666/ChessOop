@@ -172,10 +172,15 @@ public class Judge extends ObservableChess{
 		notifyObservers();
 	}
 
+	/*
+	 * funcao auxiliar retorna true se as duas forem da mesma cor
+	 */
 	private boolean eDaMesmaCor(int pecasTabuleiro[][], int xa, int ya, int xb, int yb) {
 		return pecasTabuleiro[ya][xa] * pecasTabuleiro[yb][xb] > 0;
-		
 	}
+	/*
+	 * funcao auxilia, copia o conteudo da matriz a para a matriz b
+	 */
 	private void copiaMatriz(int ma[][], int mb[][]) {
 		for(int i=0; i<ma.length;i++) {
 			for(int e=0; e<ma.length;e++) {
@@ -183,7 +188,16 @@ public class Judge extends ObservableChess{
 			}
 		}
 	}
-	
+	/*
+	 * recebe uma lista de posicoes, uma posicao pivo, e o id de uma peca.
+	 * retorna true se houver uma peca em uma das posicoes da lista
+	 * na realidade aqui a posicao pivo nem esta sendo usada
+	 * 
+	 * esta funcao é usada para verificar se o rei esta sendo ameacado por uma peca determinada
+	 * passamos todas as posicoes a partir do rei que correpondem a distancia de uma determinada peca a partir dele
+	 * e verificamos se em alguma dessas posicoes existe a tal determinada peca
+	 * se houver, entao ela esta ameacando o rei
+	 */
 	private boolean contemPeca(int pecasTabuleiro[][],List<Integer> posAmeacas, int x, int y, int compara) {
 		
 		int peca;
@@ -191,35 +205,62 @@ public class Judge extends ObservableChess{
 		int xLista;
 		int yLista;
 		for(Iterator<Integer> iter = posAmeacas.iterator(); iter.hasNext();) {
+			//capturo o par de valores na lista de movimentos possiveis
 			xLista = iter.next();
 			yLista = iter.next();
+			//capturo a peca que esta ali
 			peca = pecasTabuleiro[yLista][xLista];
+			//se a peca for uma peca do tipo que procuro
 			if(peca == compara) {
 				System.out.printf("tem uma peca %d em %d,%d mirando no rei em %d,%d\n", peca, xLista, yLista, x, y);
+				//estou amecando o rei, retorna true
 				return true;
 			}
 		}
 		return false;
 	}
+	
+	/*
+	 * verifica se o rei numa determinada posicao esta sendo ameacado por alguma peca,
+	 * percorre todos os tipos de peca, e verifica se existe alguma a distancia do rei
+	 * utiliza a funcao contemPeca para verifica se alguma ameaca acontece para cada uma das pecas
+	 */
+	
 	private boolean validaCheque(int pecasTabuleiro[][], int x, int y) {
 		List<Integer> posAmeacas;
 		int compara=0;
 		for(int i=0;i<6;i++) {
-			if(pecasTabuleiro[y][x]>0) {
+			if(pecasTabuleiro[y][x]>0) {// se o rei for branco
+				//guardamos as posicoes que poderiam enxergar o rei na posicao qu ele esta
 				posAmeacas = pecasBrancas[i].move(pecasTabuleiro, x, y);
+				//estamos procurando uma peca de cada
+				//a compara corresponde a peca que estamos verificando agora
 				compara = -(i+1);
-			}else {
+			}else {//se o rei for preto
 				posAmeacas = pecasPretas[i].move(pecasTabuleiro, x, y);
+				//essas operacoes no i, sao relativas a cor e o deslocamente das pecas
+				//(tem coisa que comeca no 1, outras comecam no 0..)
 				compara = i+1;
 			}
+			//se houver de fato uma peca que enxergue o rei e que seja correnspodente a este movimento
+			//retorna verdadeiro, pos uma peca ameaça o rei
 			if(contemPeca(pecasTabuleiro,posAmeacas, x, y, compara)) return true;
 		}
 				
 		return false;
 	}
+	
+	/*
+	 * verifica se esta acontecendo um cheque mate
+	 * verifica se tem alguma peca que seja da mesma cor que o rei ameacado que possa fazer
+	 * algum movimento valido
+	 * se nenhuma puder, entao e cheque-mate
+	 * se houver alguma que possa,
+	 * entao e apenas cheque
+	 */
 	private boolean validaChequeMate(int pecasTabuleiro[][], int xRei, int yRei) {
 		int pecasEncontradas=0;
-		//pecorrer todas as pecas
+		//pecorrer todas as pecas no tabuleiro
 		for (int i = 0; i < pecas.length; i++) {
 			for (int e = 0; e < pecas.length; e++) {
 				
@@ -228,7 +269,7 @@ public class Judge extends ObservableChess{
 					pecasEncontradas++;
 					//capturamos os movimentos dela
 					pos = getMovimentoPeca(e, i);
-					//movimentos validos
+					//filtramos somente movimentos validos
 					if(pecasTabuleiro[yRei][xRei]>0)
 						validaMovimentoCheque(e, i, reiBrancoX, reiBrancoY);
 					else
@@ -263,6 +304,10 @@ public class Judge extends ObservableChess{
 			xPos = iter.next();
 			yPos = iter.next();
 
+			//Caso estejamos de fato movendo o rei, e preciso atualizar o indicador da posicao dele,
+			//,as note que como nao estamos de fato fazendo esse movimento, nao atualizamos a variavel global
+			//somente esta que criamos para esta funcao
+			
 			if(pecasEspelho[yPeca][xPeca] == 1 || pecasEspelho[yPeca][xPeca] == -1){
 				xRei = xPos;
 				yRei = yPos;
@@ -427,8 +472,8 @@ public class Judge extends ObservableChess{
 			}
 		}
 		if(peca == -1){ //rei preto
-			Rei.setTorreBrancaEsquerda(false);
-			Rei.setTorreBrancaDireita(false);
+			Rei.setTorrePretaEsquerda(false);
+			Rei.setTorrePretaDireita(false);
 			
 			if(x==6) {
 				pecas[y][x+1] = 0;
