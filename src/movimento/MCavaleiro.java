@@ -7,7 +7,7 @@ public class MCavaleiro extends MoveBase implements IMove {
 	
 	@Override
 	public List<Integer> move(int[][] pecas, int x, int y) {
-		pos.clear();
+		inicializa();
 
 		/*
 		 * Eu devo melhorar essas funçoes depois
@@ -19,7 +19,6 @@ public class MCavaleiro extends MoveBase implements IMove {
 		 * O vetor posicoes contem a localizacao de todos as casas para as quais o cavalo iria se movimentar
 		 * se estivesse na coordenada recebida
 		 */
-		List<Integer> pos = new ArrayList<Integer>();
 		Integer posicoes[] = new Integer[]{
 				x-2, y-1,
 				x-2, y+1,
@@ -51,7 +50,7 @@ public class MCavaleiro extends MoveBase implements IMove {
 		 * Mas é preciso dizer o tipo do conteudo, e por isso passamos um vetor com zero posicoes deste mesmo tipo
 		 * Se passarmos um vetor com espaco suficiente, ele sera preenchido pela funcao
 		 */
-		return pos;
+		return finaliza();
 	}
 
 	@Override

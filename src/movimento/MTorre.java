@@ -7,7 +7,7 @@ public class MTorre extends MoveBase implements IMove{
 	
 	@Override
 	public List<Integer> move(int[][] pecas, int x, int y) {
-		pos.clear();
+		inicializa();
 		//norte
 		adicionaVetor(pecas, x, y, 0,-1);
 		//sul
@@ -16,8 +16,8 @@ public class MTorre extends MoveBase implements IMove{
 		adicionaVetor(pecas, x, y, -1, 0);
 		//leste
 		adicionaVetor(pecas, x, y, 1, 0);
-		
-		return pos;
+
+		return finaliza();
 	}
 	@Override
 	public List<Integer> move(int[][] pecas, int x, int y, boolean left, boolean right) {

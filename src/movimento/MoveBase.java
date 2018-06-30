@@ -98,5 +98,10 @@ public abstract class MoveBase{
 			yPos+=yDelta;
 		}
 	}
-
+	protected void inicializa() {
+		pos.clear();
+	}
+	protected List<Integer> finaliza() {
+		return new LinkedList<Integer>(pos);
+	}
 }

@@ -6,7 +6,7 @@ public class MBispo extends MoveBase implements IMove {
 		
 	@Override
 	public List<Integer> move(int[][] pecas, int x, int y) {
-		pos.clear();
+		inicializa();
 		
 		//Nordeste
 		adicionaVetor(pecas, x, y, 1,-1);
@@ -16,8 +16,8 @@ public class MBispo extends MoveBase implements IMove {
 		adicionaVetor(pecas, x, y, -1, 1);
 		//leste
 		adicionaVetor(pecas, x, y, 1,1);
-		
-		return pos;
+
+		return finaliza();
 	}
 
 	@Override

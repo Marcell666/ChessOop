@@ -1,6 +1,7 @@
 package gfx;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.Observable;
@@ -164,6 +165,11 @@ public class Screen extends JComponent implements Observer{
 				}
 			}
 		}
+		
+		g2d.setColor(Color.red);
+		//g2d.setClip( mHandler.xTile,  mHandler.yTile, Chess.TILE_WIDTH, Chess.TILE_HEIGHT);
+		g2d.setFont(new Font(Font.SERIF, Font.PLAIN, 24));
+		g2d.drawString(String.format("%d, %d", mHandler.xTile, mHandler.yTile),  mHandler.xTile*Chess.TILE_WIDTH, mHandler.yTile*Chess.TILE_HEIGHT);
 		
 	}
 

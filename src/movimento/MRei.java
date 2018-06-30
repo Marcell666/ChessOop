@@ -18,7 +18,7 @@ public class MRei extends MoveBase implements IMove {
 	
 	@Override
 	public List<Integer> move(int[][] pecas, int x, int y, boolean left, boolean right) {
-		pos.clear();
+		inicializa();
 
 		adicionaVetor(pecas, x, y, -1,-1, 1);
 		adicionaVetor(pecas, x, y, -1, 0, 1);
@@ -36,7 +36,7 @@ public class MRei extends MoveBase implements IMove {
 			pos.add(x+2);
 			pos.add(y);
 		}
-		return pos;
+		return finaliza();
 	}
 
 }

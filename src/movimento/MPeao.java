@@ -33,7 +33,7 @@ public class MPeao extends MoveBase implements IMove{
 		int xPos;
 		int yPos;
 		int distancia = 1;
-		pos.clear();		
+		inicializa();
 		/*		Se eu estiver na primeira casa do peao branco
 		 * 	Entao talvez possa mover duas casas
 		 */
@@ -84,7 +84,7 @@ public class MPeao extends MoveBase implements IMove{
 			pos.add(yPos);
 		}
 		
-		return pos;
+		return finaliza();
 	}
 	
 	@Override

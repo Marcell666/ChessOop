@@ -6,7 +6,7 @@ public class MRainha extends MoveBase implements IMove{
 
 	@Override
 	public List<Integer> move(int[][] pecas, int x, int y) {
-		pos.clear();
+		inicializa();
 		/*
 		 * O movimento da rainha é o movimento da torre e do bispo juntos
 		 * entao podemos usar as classe que ja escrevemos e concatenar os resultados
@@ -14,7 +14,7 @@ public class MRainha extends MoveBase implements IMove{
 		
 		pos = new MTorre().move(pecas, x, y);
 		pos.addAll(0, new MBispo().move(pecas, x, y));
-		return pos;
+		return finaliza();
 	}
 	@Override
 	public List<Integer> move(int[][] pecas, int x, int y, boolean left, boolean right) {
