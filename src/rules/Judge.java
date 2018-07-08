@@ -1,10 +1,12 @@
 package rules;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Observer;
+import java.util.function.UnaryOperator;
 
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -32,6 +34,10 @@ public class Judge extends ObservableChess{
 	
 	GameState state;
 	int xSelecionada, ySelecionada;
+	
+	List<Integer> jogadaAnteriorBranca;
+	List<Integer> jogadaAnteriorPreta;
+	int repeticoes;
 	
 	/*
 	 * 0 = casa vazia
@@ -69,6 +75,7 @@ public class Judge extends ObservableChess{
 	private int reiPretoX;
 	private int reiPretoY;
 			
+	
 	/*
 	 * O vetor pos guarda as posiçoes para onde pode ir a ultima peca selecionada
 	 * note que a forma como as posiç[]ões esta guardada é em pares seguidos
@@ -123,6 +130,16 @@ public class Judge extends ObservableChess{
 		reiBrancoY = 7;
 		reiPretoX = 4;
 		reiPretoY = 0;
+		
+		jogadaAnteriorBranca = new ArrayList<Integer>(4);
+		jogadaAnteriorPreta = new ArrayList<Integer>(4);
+		
+		for(int i=0;i<4;i++)
+			jogadaAnteriorBranca.add(0);
+		for(int i=0;i<4;i++)
+			jogadaAnteriorPreta.add(0);
+		
+		repeticoes = 0;
 		
 		setChanged();
 		notifyObservers();
@@ -330,6 +347,32 @@ public class Judge extends ObservableChess{
 		}
 	}
 	
+	boolean verificaRepeticao(int pecas[][], int antX, int antY, int newX, int newY){
+		List<Integer> jogadaAnterior;
+		
+		if(pecas[newY][newX]>0) {
+			jogadaAnterior = jogadaAnteriorBranca;
+		}
+		else {
+			jogadaAnterior = jogadaAnteriorPreta;
+		}
+		if(jogadaAnterior.get(0) == newX &&
+			jogadaAnterior.get(1) == newY &&
+			jogadaAnterior.get(2) == antX &&
+			jogadaAnterior.get(3) == antY) {
+				repeticoes++;
+		}
+		
+		jogadaAnterior.set(0, antX);
+		jogadaAnterior.set(1, antY);
+		jogadaAnterior.set(2, newX);
+		jogadaAnterior.set(3, newY);
+		
+		System.out.println("repeticoes: "+repeticoes);
+		
+		return repeticoes>=6;
+	}
+	
 	public void click(int x, int y) {
 		//System.out.println("click");
 		int peca;
@@ -339,6 +382,12 @@ public class Judge extends ObservableChess{
 			if(validaPos(pos, x, y)) {
 				state = GameState.PRETAS;
 				move(xSelecionada, ySelecionada, x, y);
+				
+				//verifica repeticao
+				if(verificaRepeticao(pecas, xSelecionada, ySelecionada, x, y)) {
+					JOptionPane.showMessageDialog(null, " Tres jogadas repetidas!\n jogo empatou!");
+				}
+				
 				
 				//roque
 				peca = pecas[y][x]; 
@@ -351,6 +400,7 @@ public class Judge extends ObservableChess{
 				if(isPeao(x,y) && y == 0)
 					promove(x,y);
 				
+				//verifica cheque
 				if(pecas[y][x] == 1) {
 					reiBrancoX = x;
 					reiBrancoY = y;
@@ -387,14 +437,20 @@ public class Judge extends ObservableChess{
 			if(validaPos(pos, x, y)) {
 				state = GameState.BRANCAS;
 				move(xSelecionada, ySelecionada, x, y);
+				
+				//verifica repeticao
+				if(verificaRepeticao(pecas, xSelecionada, ySelecionada, x, y)) {
+					JOptionPane.showMessageDialog(null, " Tres jogadas repetidas!\n jogo empatou!");
+				}
+				
 				//roque
 				peca = pecas[y][x]; 
 				if(peca == 1 || peca == 5 ||
 				peca == -1 || peca == 5) {
 					moveRoque(x,y);
 				}
-				//verificando promocao
 				
+				//verificando promocao
 				if(isPeao(x,y) && y==Chess.QTD_TILES-1)
 						promove(x,y);
 				
