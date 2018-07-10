@@ -27,7 +27,7 @@ public class MRei extends MoveBase implements IMove {
 		adicionaVetor(pecas, x, y,  0,+1, 1);
 		adicionaVetor(pecas, x, y, +1,-1, 1);
 		adicionaVetor(pecas, x, y, +1, 0, 1);
-		adicionaVetor(pecas, x, y, +1,-1, 1);
+		adicionaVetor(pecas, x, y, +1,+1, 1);
 		if(left && validaRoqueEsquerda(pecas, x, y)) {
 			pos.add(x-3);
 			pos.add(y);
