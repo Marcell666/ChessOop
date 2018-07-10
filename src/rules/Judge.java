@@ -515,30 +515,29 @@ public class Judge extends ObservableChess{
 	public void moveRoque(int x, int y) {
 		int peca = pecas[y][x];
 		if(peca == 1) { //rei branco
-			Rei.setTorreBrancaEsquerda(false);
-			Rei.setTorreBrancaDireita(false);
-			
-			if(x==6) {
+			if(Rei.getTorreBrancaDireita() && x==6) {
 				pecas[y][x+1] = 0;
 				pecas[y][x-1] = 5; 
 			}
-			if(x==1) {
+			if(Rei.getTorreBrancaDireita() && x==1) {
 				pecas[y][x-1] = 0;
 				pecas[y][x+1] = 5; 
 			}
+			Rei.setTorreBrancaEsquerda(false);
+			Rei.setTorreBrancaDireita(false);
 		}
 		if(peca == -1){ //rei preto
-			Rei.setTorrePretaEsquerda(false);
-			Rei.setTorrePretaDireita(false);
 			
-			if(x==6) {
+			if(Rei.getTorrePretaDireita() && x==6) {
 				pecas[y][x+1] = 0;
 				pecas[y][x-1] = -5; 
 			}
-			if(x==1) {
+			if(Rei.getTorrePretaEsquerda() && x==1) {
 				pecas[y][x-1] = 0;
 				pecas[y][x+1] = -5; 
 			}
+			Rei.setTorrePretaEsquerda(false);
+			Rei.setTorrePretaDireita(false);
 		}
 		if(peca == 5) { //torre branco
 			if(x==0)
