@@ -29,7 +29,8 @@ public class Judge extends ObservableChess{
 		BRANCAS,
 		PRETAS,
 		BRANCAS_SELECIONADA,
-		PRETAS_SELECIONADA
+		PRETAS_SELECIONADA,
+		FIM_DE_JOGO
 	}
 	
 	GameState state;
@@ -52,6 +53,17 @@ public class Judge extends ObservableChess{
 	 * */
 	private int pecas[][] =  new int[][]
 			{
+		/*
+				{ 0, 0, 0, 0,-1, 0, 0, 0},
+				{ 0, 0, 0, 0, 0, 0, 5, 5},
+				{ 0, 0, 0, 0, 0, 0, 0, 0},
+				{ 0, 0, 0, 0, 0, 0, 0, 0},
+				{ 0, 0, 6, 0, 0, 6, 0, 0},
+				{ 0, 0, 0, 0, 0, 0, 0, 0},
+				{ 6, 6, 6, 0, 0, 6, 6, 6},
+				{ 0, 4, 3, 2, 1, 3, 4, 0}
+				
+				*/
 				{-5,-4,-3,-2,-1,-3,-4,-5},
 				{-6,-6,-6,-6,-6,-6,-6,-6},
 				{ 0, 0, 0, 0, 0, 0, 0, 0},
@@ -60,6 +72,7 @@ public class Judge extends ObservableChess{
 				{ 0, 0, 0, 0, 0, 0, 0, 0},
 				{ 6, 6, 6, 6, 6, 6, 6, 6},
 				{ 5, 4, 3, 2, 1, 3, 4, 5}
+				
 			};
 	private int pecasEspelho[][];
 	
@@ -267,43 +280,7 @@ public class Judge extends ObservableChess{
 		return false;
 	}
 	
-	/*
-	 * verifica se esta acontecendo um cheque mate
-	 * verifica se tem alguma peca que seja da mesma cor que o rei ameacado que possa fazer
-	 * algum movimento valido
-	 * se nenhuma puder, entao e cheque-mate
-	 * se houver alguma que possa,
-	 * entao e apenas cheque
-	 */
-	private boolean validaChequeMate(int pecasTabuleiro[][], int xRei, int yRei) {
-		int pecasEncontradas=0;
-		//pecorrer todas as pecas no tabuleiro
-		for (int i = 0; i < pecas.length; i++) {
-			for (int e = 0; e < pecas.length; e++) {
-				
-				//se a peca for da cor do rei
-				if(pecasTabuleiro[i][e]!=0 && eDaMesmaCor(pecas, e, i, xRei, yRei)) {
-					pecasEncontradas++;
-					//capturamos os movimentos dela
-					pos = getMovimentoPeca(e, i);
-					//filtramos somente movimentos validos
-					if(pecasTabuleiro[yRei][xRei]>0)
-						validaMovimentoCheque(e, i, reiBrancoX, reiBrancoY);
-					else
-						validaMovimentoCheque(e, i, reiPretoX, reiPretoY);
-					
-					//se houver algum movimento valido
-					if(pos.size() > 0) //entao nao e cheque mate
-						return false;
-					if(pecasEncontradas >=32) return true;
-					
-				}
-				
-			}
-		}
-		
-		return true;
-	}
+
 	
 	/*
 	 * Impede o jogador de fazer jogadas invalidas, que colocariam o proprio rei em cheque,
@@ -347,6 +324,44 @@ public class Judge extends ObservableChess{
 		}
 	}
 	
+	/*
+	 * verifica se esta acontecendo um cheque mate
+	 * verifica se tem alguma peca que seja da mesma cor que o rei ameacado que possa fazer
+	 * algum movimento valido
+	 * se nenhuma puder, entao e cheque-mate
+	 * se houver alguma que possa,
+	 * entao e apenas cheque
+	 */
+	private boolean validaChequeMate(int pecasTabuleiro[][], int xRei, int yRei) {
+		int pecasEncontradas=0;
+		//pecorrer todas as pecas no tabuleiro
+		for (int i = 0; i < pecas.length; i++) {
+			for (int e = 0; e < pecas.length; e++) {
+				
+				//se a peca for da cor do rei
+				if(pecasTabuleiro[i][e]!=0 && eDaMesmaCor(pecas, e, i, xRei, yRei)) {
+					pecasEncontradas++;
+					//capturamos os movimentos dela
+					pos = getMovimentoPeca(e, i);
+					//filtramos somente movimentos validos
+					if(pecasTabuleiro[yRei][xRei]>0)
+						validaMovimentoCheque(e, i, reiBrancoX, reiBrancoY);
+					else
+						validaMovimentoCheque(e, i, reiPretoX, reiPretoY);
+					
+					//se houver algum movimento valido
+					if(pos.size() > 0) //entao nao e cheque mate
+						return false;
+					if(pecasEncontradas >=16) return true;
+					
+				}
+				
+			}
+		}
+		
+		return true;
+	}
+	
 	boolean verificaRepeticao(int pecas[][], int antX, int antY, int newX, int newY){
 		List<Integer> jogadaAnterior;
 		
@@ -376,6 +391,10 @@ public class Judge extends ObservableChess{
 	public void click(int x, int y) {
 		//System.out.println("click");
 		int peca;
+
+		boolean cheque;
+		boolean chequeMate;
+		
 		switch(state) {
 		
 		case BRANCAS_SELECIONADA:
@@ -386,6 +405,7 @@ public class Judge extends ObservableChess{
 				//verifica repeticao
 				if(verificaRepeticao(pecas, xSelecionada, ySelecionada, x, y)) {
 					JOptionPane.showMessageDialog(null, " Tres jogadas repetidas!\n jogo empatou!");
+					state = GameState.FIM_DE_JOGO;
 				}
 				
 				
@@ -405,16 +425,36 @@ public class Judge extends ObservableChess{
 					reiBrancoX = x;
 					reiBrancoY = y;
 				}
+				/*
 				if(validaCheque(pecas, reiBrancoX,reiBrancoY) || validaCheque(pecas, reiPretoX,reiPretoY)) {
 					if(validaChequeMate(pecas, reiPretoX, reiPretoY)) {
 						System.out.println("Cheque-Mate!");
 						JOptionPane.showMessageDialog(null, "O rei esta em cheque-mate! Fim de Jogo!", "Cheque-Mate!", JOptionPane.WARNING_MESSAGE);
+						state = GameState.FIM_DE_JOGO;
 					}
 					else {
 						System.out.println("Cheque!");
 						JOptionPane.showMessageDialog(null, "O rei esta em cheque!", "Cheque", JOptionPane.WARNING_MESSAGE);
 					}
 				}
+				*/
+				cheque = validaCheque(pecas, reiPretoX,reiPretoY);
+				chequeMate = validaChequeMate(pecas, reiPretoX, reiPretoY);
+				if(cheque && chequeMate) {
+					System.out.println("Cheque-Mate!");
+					JOptionPane.showMessageDialog(null, "O rei esta em cheque-mate! Fim de Jogo!", "Cheque-Mate!", JOptionPane.WARNING_MESSAGE);
+					state = GameState.FIM_DE_JOGO;
+				}
+				else if(cheque){
+					System.out.println("Cheque!");
+					JOptionPane.showMessageDialog(null, "O rei esta em cheque!", "Cheque", JOptionPane.WARNING_MESSAGE);
+				}
+				else if(chequeMate) {
+					System.out.println("Congelado!");
+					JOptionPane.showMessageDialog(null, "O jogo esta congelado!", "Congelado", JOptionPane.WARNING_MESSAGE);
+					state = GameState.FIM_DE_JOGO;
+				}
+				
 				break;
 			}
 			else if(pecas[y][x] <= 0) {
@@ -441,6 +481,7 @@ public class Judge extends ObservableChess{
 				//verifica repeticao
 				if(verificaRepeticao(pecas, xSelecionada, ySelecionada, x, y)) {
 					JOptionPane.showMessageDialog(null, " Tres jogadas repetidas!\n jogo empatou!");
+					state = GameState.FIM_DE_JOGO;
 				}
 				
 				//roque
@@ -458,16 +499,35 @@ public class Judge extends ObservableChess{
 					reiPretoX = x;
 					reiPretoY = y;
 				}
-				
+				/*
 				if(validaCheque(pecas, reiBrancoX,reiBrancoY) || validaCheque(pecas, reiPretoX,reiPretoY)) {
 					if(validaChequeMate(pecas, reiBrancoX, reiBrancoY)) {
 						System.out.println("Cheque-Mate!");
 						JOptionPane.showMessageDialog(null, "O rei esta em cheque-mate! Fim de Jogo!", "Cheque-Mate!", JOptionPane.WARNING_MESSAGE);
+						state = GameState.FIM_DE_JOGO;
 					}
 					else {
 						System.out.println("Cheque!");
 						JOptionPane.showMessageDialog(null, "O rei esta em cheque!", "Cheque", JOptionPane.WARNING_MESSAGE);
 					}
+				}
+				*/
+
+				cheque = validaCheque(pecas, reiBrancoX,reiBrancoY);
+				chequeMate = validaChequeMate(pecas, reiBrancoX, reiBrancoY);
+				if(cheque && chequeMate) {
+					System.out.println("Cheque-Mate!");
+					JOptionPane.showMessageDialog(null, "O rei esta em cheque-mate! Fim de Jogo!", "Cheque-Mate!", JOptionPane.WARNING_MESSAGE);
+					state = GameState.FIM_DE_JOGO;
+				}
+				else if(cheque){
+					System.out.println("Cheque!");
+					JOptionPane.showMessageDialog(null, "O rei esta em cheque!", "Cheque", JOptionPane.WARNING_MESSAGE);
+				}
+				else if(chequeMate) {
+					System.out.println("Congelado!");
+					JOptionPane.showMessageDialog(null, "O jogo esta congelado!", "Congelado", JOptionPane.WARNING_MESSAGE);
+					state = GameState.FIM_DE_JOGO;
 				}
 				
 				break;
@@ -488,10 +548,50 @@ public class Judge extends ObservableChess{
 				validaMovimentoCheque(x, y, reiPretoX, reiPretoY);
 			}
 			break;
+		case FIM_DE_JOGO:
+			reiniciar();
+			break;
 		default:
 			break;
 		}
 		//System.out.println("setChanged");
+		setChanged();
+		notifyObservers();
+	}
+	
+	private void reiniciar() {
+		pecas = new int[][]{
+					{-5,-4,-3,-2,-1,-3,-4,-5},
+					{-6,-6,-6,-6,-6,-6,-6,-6},
+					{ 0, 0, 0, 0, 0, 0, 0, 0},
+					{ 0, 0, 0, 0, 0, 0, 0, 0},
+					{ 0, 0, 0, 0, 0, 0, 0, 0},
+					{ 0, 0, 0, 0, 0, 0, 0, 0},
+					{ 6, 6, 6, 6, 6, 6, 6, 6},
+					{ 5, 4, 3, 2, 1, 3, 4, 5}
+				};
+				
+		Rei.setTorreBrancaDireita(true);
+		Rei.setTorreBrancaEsquerda(true);
+		Rei.setTorrePretaDireita(true);
+		Rei.setTorrePretaEsquerda(true);
+		
+		reiBrancoX = 4;
+		reiBrancoY = 7;
+		reiPretoX = 4;
+		reiPretoY = 0;
+		
+		jogadaAnteriorBranca.replaceAll(x->0);
+		jogadaAnteriorPreta.replaceAll(x->0);
+		
+		for(Integer i : jogadaAnteriorBranca) {
+			System.out.println(i);
+		}
+		
+		repeticoes = 0;
+
+		state = GameState.BRANCAS;
+		
 		setChanged();
 		notifyObservers();
 	}
@@ -515,11 +615,11 @@ public class Judge extends ObservableChess{
 	public void moveRoque(int x, int y) {
 		int peca = pecas[y][x];
 		if(peca == 1) { //rei branco
-			if(Rei.getTorreBrancaDireita() && x==6) {
+			if(Rei.getTorreBrancaDireita() && x==6 && pecas[7][7] == 5) {
 				pecas[y][x+1] = 0;
 				pecas[y][x-1] = 5; 
 			}
-			if(Rei.getTorreBrancaDireita() && x==1) {
+			if(Rei.getTorreBrancaEsquerda() && x==1 && pecas[7][0] == 5) {
 				pecas[y][x-1] = 0;
 				pecas[y][x+1] = 5; 
 			}
@@ -528,11 +628,11 @@ public class Judge extends ObservableChess{
 		}
 		if(peca == -1){ //rei preto
 			
-			if(Rei.getTorrePretaDireita() && x==6) {
+			if(Rei.getTorrePretaDireita() && x==6 && pecas[0][0] == -5) {
 				pecas[y][x+1] = 0;
 				pecas[y][x-1] = -5; 
 			}
-			if(Rei.getTorrePretaEsquerda() && x==1) {
+			if(Rei.getTorrePretaEsquerda() && x==1 && pecas[0][7] == -5) {
 				pecas[y][x-1] = 0;
 				pecas[y][x+1] = -5; 
 			}
