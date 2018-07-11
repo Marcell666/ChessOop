@@ -4,11 +4,22 @@ import java.util.List;
 
 public class MRei extends MoveBase implements IMove {
 	
+	private boolean eDaMesmaCor(int pecasTabuleiro[][], int xa, int ya, int xb, int yb) {
+		return pecasTabuleiro[ya][xa] * pecasTabuleiro[yb][xb] > 0;
+	}
+	
 	boolean validaRoqueDireita(int pecas[][], int x, int y) {
-		return  pecas[y][x+1] == 0 && pecas[y][x+2] == 0;
+		if (!valida(x+1,y)) return false;
+		if (!valida(x+2,y)) return false;
+		if (!valida(x+3,y)) return false;
+		return  pecas[y][x+1] == 0 && pecas[y][x+2] == 0 && eDaMesmaCor(pecas, x, y, x+3,y);
 	}
 	boolean validaRoqueEsquerda(int pecas[][], int x, int y) {
-		return  pecas[y][x-1] == 0 && pecas[y][x-2] == 0 && pecas[y][x-3] == 0;
+		if (!valida(x-1,y)) return false;
+		if (!valida(x-2,y)) return false;
+		if (!valida(x-3,y)) return false;
+		if (!valida(x-4,y)) return false;
+		return  pecas[y][x-1] == 0 && pecas[y][x-2] == 0 && pecas[y][x-3] == 0 && eDaMesmaCor(pecas, x, y, x-4, y);
 	}
 	
 	@Override
